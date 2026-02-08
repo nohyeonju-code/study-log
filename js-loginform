@@ -1,0 +1,67 @@
+주제
+로컬 스토리지를 활용한 간단한 로그인 인사 시스템
+
+# 목표
+- 사용자가 이름을 입력하면 로컬 스토리지에 저장
+- 페이지를 새로고침해도 이전에 입력한 이름을 기억
+- 이름이 입력되지 않으면 경고창 표시
+- 로그인 후에는 입력 폼을 숨기고 인사 메시지 표시
+
+# 코드
+
+## index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js</title>
+</head>
+<body>
+    <form id="loginform">
+        <input
+        type="text"
+        id="loginInput"
+        placeholder="이름을 입력하세요."
+        />
+        <button type="submit">login</button>
+    </form>
+    <h1 id="greeting"></h1>
+    <script src="blog.js"></script>
+</body>
+</html>
+blog.js
+const loginForm = document.querySelector("#loginform");
+const loginInput = loginForm.querySelector("#loginInput");
+const greeting = document.querySelector("#greeting");
+
+const saveUsername = localStorage.getItem("username");
+
+if (!saveUsername) {
+    // 저장된 이름이 없으면 로그인 폼 유지
+} else {
+    // 저장된 이름이 있으면 폼 숨기고 인사 표시
+    loginForm.style.display = "none";
+    greeting.innerText = `안녕하세요 ${saveUsername}`;
+}
+
+function onSubmit(event) {
+    event.preventDefault();
+    const inputUsername = loginInput.value;
+
+    if (inputUsername === "") {
+        alert("이름을 입력하세요.");
+    } else {
+        localStorage.setItem("username", inputUsername);
+        loginForm.style.display = "none";
+        greeting.innerText = `안녕하세요 ${inputUsername}`;
+    }
+}
+
+loginForm.addEventListener("submit", onSubmit);
+
+
+
+
+
